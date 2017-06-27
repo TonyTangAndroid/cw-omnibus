@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -22,6 +22,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,7 +32,6 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import de.greenrobot.event.EventBus;
 
 public class ScheduledService extends Service
   implements Runnable {

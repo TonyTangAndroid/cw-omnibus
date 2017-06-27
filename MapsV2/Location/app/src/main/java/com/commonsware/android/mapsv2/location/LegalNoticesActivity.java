@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -17,7 +17,7 @@ package com.commonsware.android.mapsv2.location;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class LegalNoticesActivity extends Activity {
   @Override
@@ -27,6 +27,8 @@ public class LegalNoticesActivity extends Activity {
 
     TextView legal=(TextView)findViewById(R.id.legal);
 
-    legal.setText(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
+    legal.setText(GoogleApiAvailability
+      .getInstance()
+      .getOpenSourceSoftwareLicenseInfo(this));
   }
 }

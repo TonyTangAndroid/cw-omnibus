@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -36,17 +36,17 @@ public class PicassoDiagnosticActivity extends ListActivity {
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
+  protected void onStart() {
+    super.onStart();
 
     EventBus.getDefault().registerSticky(this);
   }
 
   @Override
-  protected void onPause() {
+  protected void onStop() {
     EventBus.getDefault().unregister(this);
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override

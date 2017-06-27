@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -53,7 +53,7 @@ public class Provider extends ContentProvider {
   public boolean onCreate() {
     db=new DatabaseHelper(getContext());
 
-    return((db == null) ? false : true);
+    return(true);
   }
 
   @Override

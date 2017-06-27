@@ -8,16 +8,18 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.fts;
 
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface StackOverflowInterface {
   @GET("/2.1/questions?order=desc&sort=creation&site=stackoverflow")
-  SOQuestions questions(@Query("tagged") String tags);
+  Call<SOQuestions> questions(@Query("tagged") String tags);
 }

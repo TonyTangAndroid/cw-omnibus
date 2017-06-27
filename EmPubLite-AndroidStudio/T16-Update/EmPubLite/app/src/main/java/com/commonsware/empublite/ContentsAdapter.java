@@ -22,4 +22,9 @@ public class ContentsAdapter extends FragmentStatePagerAdapter {
   public int getCount() {
     return(contents.getChapterCount());
   }
+
+  @Override
+  public CharSequence getPageTitle(int position) {
+    return(contents.getChapterTitle(position));
+  }
 }

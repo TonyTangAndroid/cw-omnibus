@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -55,6 +55,8 @@ public class DownloadService extends Service {
 
     @Override
     public void run() {
+      boolean succeeded=false;
+
       try {
         File root=
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -82,13 +84,7 @@ public class DownloadService extends Service {
           }
 
           out.flush();
-
-          try {
-            cb.onSuccess();
-          }
-          catch (RemoteException e) {
-            Log.e("DownloadJob", "Exception when calling onSuccess()", e);
-          }
+          succeeded=true;
         }
         finally {
           fos.getFD().sync();
@@ -104,6 +100,15 @@ public class DownloadService extends Service {
         }
         catch (RemoteException e) {
           Log.e("DownloadJob", "Exception when calling onFailure()", e2);
+        }
+      }
+
+      if (succeeded) {
+        try {
+          cb.onSuccess();
+        }
+        catch (RemoteException e) {
+          Log.e("DownloadJob", "Exception when calling onSuccess()", e);
         }
       }
     }

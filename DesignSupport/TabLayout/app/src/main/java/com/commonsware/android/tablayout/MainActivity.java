@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -24,14 +24,14 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
   private SampleAdapter adapter;
   private TabLayout tabs;
+  private ViewPager pager;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    ViewPager pager=(ViewPager)findViewById(R.id.pager);
-
+    pager=(ViewPager)findViewById(R.id.pager);
     adapter=new SampleAdapter(this, getSupportFragmentManager());
     pager.setAdapter(adapter);
 
@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
       }
 
       adapter.notifyDataSetChanged();
-      tabs.setTabsFromPagerAdapter(adapter);
+
+      if (pager.getCurrentItem()>=3) {
+        pager.setCurrentItem(2);
+      }
 
       return(true);
     }

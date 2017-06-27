@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.3.2'
     }
 }
 
@@ -13,7 +13,7 @@ subprojects {
 				    mavenCentral()
 				}
 				dependencies {
-				    classpath 'com.android.tools.build:gradle:2.1.0'
+				    classpath 'com.android.tools.build:gradle:2.3.2'
 				}
 		}
 
@@ -21,7 +21,7 @@ subprojects {
 
     android {
 				compileSdkVersion 19
-				buildToolsVersion "21.1.2"
+				buildToolsVersion "25.0.3"
 
         signingConfigs {
             release {

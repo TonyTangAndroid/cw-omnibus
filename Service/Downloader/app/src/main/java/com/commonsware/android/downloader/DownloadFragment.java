@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -19,17 +19,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class DownloadFragment extends Fragment implements
-    View.OnClickListener {
+    View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
+  private static final int REQUEST_STORAGE=123;
   private Button b=null;
 
   @Override
@@ -44,8 +49,8 @@ public class DownloadFragment extends Fragment implements
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     IntentFilter f=new IntentFilter(Downloader.ACTION_COMPLETE);
 
@@ -54,22 +59,45 @@ public class DownloadFragment extends Fragment implements
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     LocalBroadcastManager.getInstance(getActivity())
                          .unregisterReceiver(onEvent);
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override
   public void onClick(View v) {
+    if (hasPermission(WRITE_EXTERNAL_STORAGE)) {
+      doTheDownload();
+    }
+    else {
+      FragmentCompat.requestPermissions(this,
+        new String[] { WRITE_EXTERNAL_STORAGE }, REQUEST_STORAGE);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                         int[] grantResults) {
+    if (hasPermission(WRITE_EXTERNAL_STORAGE)) {
+      doTheDownload();
+    }
+  }
+
+  private void doTheDownload() {
     b.setEnabled(false);
 
     Intent i=new Intent(getActivity(), Downloader.class);
 
-    i.setData(Uri.parse("https://commonsware.com/Android/excerpt.pdf"));
+    i.setData(Uri.parse("https://commonsware.com/Android/Android-1_0-CC.pdf"));
 
     getActivity().startService(i);
+  }
+
+  private boolean hasPermission(String perm) {
+    return(ContextCompat.checkSelfPermission(getActivity(), perm)==
+      PackageManager.PERMISSION_GRANTED);
   }
 
   private BroadcastReceiver onEvent=new BroadcastReceiver() {

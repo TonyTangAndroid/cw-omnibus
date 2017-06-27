@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -40,7 +40,7 @@ public class PipeProvider extends AbstractFileProvider {
 
     try {
       pipe=ParcelFileDescriptor.createPipe();
-      AssetManager assets=getContext().getResources().getAssets();
+      AssetManager assets=getContext().getAssets();
 
       new TransferThread(assets.open(uri.getLastPathSegment()),
                        new AutoCloseOutputStream(pipe[1])).start();

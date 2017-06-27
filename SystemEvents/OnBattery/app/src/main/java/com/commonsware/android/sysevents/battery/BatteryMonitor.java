@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
 */
 
@@ -41,16 +41,16 @@ public class BatteryMonitor extends Activity {
   }
   
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
     
     registerReceiver(onBatteryChanged,
                       new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
   }
   
   @Override
-  public void onPause() {
-    super.onPause();
+  public void onStop() {
+    super.onStop();
     
     unregisterReceiver(onBatteryChanged);
   }

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -30,7 +30,9 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.pressKey;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
 @RunWith(AndroidJUnit4.class)
@@ -58,7 +60,8 @@ public class DemoActivityRuleTest {
   public void scrollToBottom() {
     onData(anything())
       .inAdapterView(withId(android.R.id.list))
-      .atPosition(24);
+      .atPosition(24)
+      .check(matches(withText("purus")));
   }
 
   static class AdapterCountAssertion implements ViewAssertion {
@@ -90,31 +93,6 @@ public class DemoActivityRuleTest {
       Assert.assertTrue(view instanceof ListView);
       Assert.assertEquals(position,
         ((ListView)view).getSelectedItemPosition());
-    }
-  }
-
-  static class ListVisiblePositionAssertion implements ViewAssertion {
-    private final int position;
-    private final boolean isFirst;
-
-    ListVisiblePositionAssertion(int position, boolean isFirst) {
-      this.position=position;
-      this.isFirst=isFirst;
-    }
-
-    @Override
-    public void check(View view,
-                      NoMatchingViewException noViewFoundException) {
-      Assert.assertTrue(view instanceof ListView);
-
-      if (isFirst) {
-        Assert.assertEquals(position,
-          ((ListView)view).getFirstVisiblePosition());
-      }
-      else {
-        Assert.assertEquals(position,
-          ((ListView)view).getLastVisiblePosition());
-      }
     }
   }
 }

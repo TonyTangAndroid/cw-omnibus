@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -19,8 +19,8 @@ import android.content.Intent;
 import android.util.Log;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
-import de.greenrobot.event.EventBus;
 import okio.BufferedSink;
 import okio.Okio;
 

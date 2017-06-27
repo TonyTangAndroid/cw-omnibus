@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -31,7 +31,7 @@ public class FileProvider extends AbstractFileProvider {
     File f=new File(getContext().getFilesDir(), "test.pdf");
 
     if (!f.exists()) {
-      AssetManager assets=getContext().getResources().getAssets();
+      AssetManager assets=getContext().getAssets();
 
       try {
         copy(assets.open("test.pdf"), f);
@@ -48,7 +48,7 @@ public class FileProvider extends AbstractFileProvider {
 
   @Override
   public ParcelFileDescriptor openFile(Uri uri, String mode)
-                                                            throws FileNotFoundException {
+    throws FileNotFoundException {
     File root=getContext().getFilesDir();
     File f=new File(root, uri.getPath()).getAbsoluteFile();
 

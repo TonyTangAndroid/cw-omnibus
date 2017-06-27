@@ -8,60 +8,48 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.databind.basic;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import com.commonsware.android.databind.basic.databinding.RowBinding;
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
-public class QuestionController
-  extends RecyclerView.ViewHolder
-  implements View.OnClickListener {
-  public static final View.OnTouchListener ON_TOUCH=
-    new View.OnTouchListener() {
-      @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        if (Build.VERSION.SDK_INT>=
-          Build.VERSION_CODES.LOLLIPOP) {
-          v
-            .findViewById(R.id.row_content)
-            .getBackground()
-            .setHotspot(event.getX(), event.getY());
-        }
-
-        return(false);
-      }
-    };
-
+public class QuestionController extends RecyclerView.ViewHolder
+  implements View.OnTouchListener {
   private final RowBinding rowBinding;
-  private final QuestionsFragment.QuestionsAdapter adapter;
 
-  public QuestionController(RowBinding rowBinding,
-                            QuestionsFragment.QuestionsAdapter adapter) {
+  public QuestionController(RowBinding rowBinding) {
     super(rowBinding.getRoot());
 
     this.rowBinding=rowBinding;
-    this.adapter=adapter;
+  }
+
+  public void showQuestion(Question question) {
+    EventBus.getDefault().post(new QuestionClickedEvent(question));
   }
 
   @Override
-  public void onClick(View v) {
-    Question question=adapter.getItem(getAdapterPosition());
+  public boolean onTouch(View v, MotionEvent event) {
+    if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+      v
+        .findViewById(R.id.row_content)
+        .getBackground()
+        .setHotspot(event.getX(), event.getY());
+    }
 
-    EventBus.getDefault().post(new QuestionClickedEvent(question));
+    return(false);
   }
 
   void bindModel(Question question) {
     rowBinding.setQuestion(question);
     rowBinding.setController(this);
+    rowBinding.executePendingBindings();
   }
 }

@@ -1,22 +1,15 @@
 /***
- * Copyright (c) 2008-2012 CommonsWare, LLC
- * Licensed under the Apache License, Version 2.0 (the
- * "License"); you may not
- * use this file except in compliance with the License. You may
- * obtain	a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0.
- * Unless required
- * by applicable law or agreed to in writing, software
- * distributed under the
- * License is distributed on an "AS IS" BASIS,	WITHOUT	WARRANTIES
- * OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for
- * the specific
- * language governing permissions and limitations under the
- * License.
- * <p/>
- * From _The Busy Coder's Guide to Android Development_
- * https://commonsware.com/Android
+  Copyright (c) 2008-2017 CommonsWare, LLC
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not
+  use this file except in compliance with the License. You may obtain a copy
+  of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required
+  by applicable law or agreed to in writing, software distributed under the
+  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+  OF ANY KIND, either express or implied. See the License for the specific
+  language governing permissions and limitations under the License.
+  
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
+    https://commonsware.com/Android
  */
 
 package com.commonsware.android.downloader;
@@ -30,6 +23,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import com.commonsware.cwac.netsecurity.TrustManagerBuilder;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,6 +58,11 @@ public class Downloader extends IntentService {
       URL url=new URL(i.getData().toString());
       HttpURLConnection c=
         (HttpURLConnection)url.openConnection();
+      TrustManagerBuilder tmb=
+        new TrustManagerBuilder().withManifestConfig(this);
+
+      tmb.applyTo(c);
+
       FileOutputStream fos=
         new FileOutputStream(output.getPath());
       BufferedOutputStream out=new BufferedOutputStream(fos);
@@ -88,7 +87,7 @@ public class Downloader extends IntentService {
 
       raiseNotification(mimeType, output, null);
     }
-    catch (IOException e2) {
+    catch (Exception e2) {
       Log.e(getClass().getSimpleName(),
         "Exception downloading file", e2);
       raiseNotification(null, null, e2);

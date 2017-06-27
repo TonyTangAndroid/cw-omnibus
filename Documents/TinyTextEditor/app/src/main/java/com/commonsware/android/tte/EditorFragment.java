@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -106,9 +106,9 @@ public class EditorFragment extends Fragment {
                                   MenuInflater inflater) {
     inflater.inflate(R.menu.editor_actions, menu);
 
-    if (iCanHazN()) {
+    if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
       launchItem=menu.findItem(R.id.launch);
-      launchItem.setVisible(getActivity().inMultiWindow());
+      launchItem.setVisible(getActivity().isInMultiWindowMode());
     }
 
     super.onCreateOptionsMenu(menu, inflater);
@@ -135,8 +135,8 @@ public class EditorFragment extends Fragment {
   }
 
   @Override
-  public void onMultiWindowChanged(boolean inMultiWindow) {
-    super.onMultiWindowChanged(inMultiWindow);
+  public void onMultiWindowModeChanged(boolean inMultiWindow) {
+    super.onMultiWindowModeChanged(inMultiWindow);
 
     if (launchItem!=null) {
       launchItem.setVisible(inMultiWindow);
@@ -193,9 +193,5 @@ public class EditorFragment extends Fragment {
 
   void markAsClosing() {
     isClosing=true;
-  }
-
-  public static boolean iCanHazN() {
-    return("N".equals(Build.VERSION.CODENAME));
   }
 }

@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -26,6 +26,7 @@ import org.acra.annotation.ReportsCrashes;
   resDialogText = R.string.msg_acra_dialog,
   resDialogCommentPrompt = R.string.msg_acra_comment_prompt,
   resDialogEmailPrompt = R.string.msg_acra_email_prompt,
+  resDialogTheme = R.style.AppTheme_Dialog,
   httpMethod=org.acra.sender.HttpSender.Method.PUT,
   reportType=org.acra.sender.HttpSender.Type.JSON
 )

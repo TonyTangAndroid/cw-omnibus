@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -36,8 +36,7 @@ public class CameraContentDemoActivity extends Activity {
     Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
     if (savedInstanceState==null) {
-      File dir=
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+      File dir=getExternalFilesDir(Environment.DIRECTORY_DCIM);
 
       dir.mkdirs();
       output=new File(dir, FILENAME);

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -53,16 +53,16 @@ public class WeatherFragment extends WebViewFragment implements
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3600000,
                                1000, this);
   }
 
   @Override
-  public void onPause() {
-    super.onPause();
+  public void onStop() {
+    super.onStop();
 
     mgr.removeUpdates(this);
   }

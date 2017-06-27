@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -49,17 +49,17 @@ public class EventLogFragment extends ListFragment {
   }
   
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
     
     ScheduledService.bus.register(this);
   }
   
   @Override
-  public void onPause() {
+  public void onStop() {
     ScheduledService.bus.unregister(this);
     
-    super.onPause();
+    super.onStop();
   }
 
   @Subscribe

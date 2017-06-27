@@ -8,22 +8,22 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.tte;
 
 import android.app.IntentService;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.UriPermission;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
-import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,6 +37,7 @@ public class DocumentStorageService extends IntentService {
   public static void loadDocument(Context ctxt, Uri document) {
     Intent i=new Intent(ctxt, DocumentStorageService.class)
       .setAction(Intent.ACTION_OPEN_DOCUMENT)
+      .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
       .setData(document);
 
     ctxt.startService(i);
@@ -47,6 +48,8 @@ public class DocumentStorageService extends IntentService {
     Intent i=new Intent(ctxt, DocumentStorageService.class)
       .setAction(Intent.ACTION_EDIT)
       .setData(document)
+      .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
       .putExtra(Intent.EXTRA_TEXT, text)
       .putExtra(EXTRA_CLOSING, isClosing);
 
@@ -70,20 +73,27 @@ public class DocumentStorageService extends IntentService {
   }
 
   private void load(Uri document) {
-    int perms=Intent.FLAG_GRANT_READ_URI_PERMISSION
-      | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-
     try {
-      getContentResolver()
-        .takePersistableUriPermission(document, perms);
-
       boolean weHavePermission=false;
+      boolean isContent=
+        ContentResolver.SCHEME_CONTENT.equals(document.getScheme());
 
-      for (UriPermission perm :
-        getContentResolver().getPersistedUriPermissions()) {
-        if (perm.getUri().equals(document)) {
-          weHavePermission=true;
+      if (isContent) {
+        int perms=Intent.FLAG_GRANT_READ_URI_PERMISSION
+          | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+
+        getContentResolver()
+          .takePersistableUriPermission(document, perms);
+
+        for (UriPermission perm :
+          getContentResolver().getPersistedUriPermissions()) {
+          if (perm.getUri().equals(document)) {
+            weHavePermission=true;
+          }
         }
+      }
+      else {
+        weHavePermission=true;
       }
 
       if (weHavePermission) {
@@ -93,8 +103,14 @@ public class DocumentStorageService extends IntentService {
 
           try {
             String text=slurp(is);
-            DocumentFile docFile=
-              DocumentFile.fromSingleUri(this, document);
+            DocumentFile docFile;
+
+            if (isContent) {
+              docFile=DocumentFile.fromSingleUri(this, document);
+            }
+            else {
+              docFile=DocumentFile.fromFile(new File(document.getPath()));
+            }
 
             EventBus
               .getDefault()
@@ -132,6 +148,9 @@ public class DocumentStorageService extends IntentService {
   }
 
   private void save(Uri document, String text, boolean isClosing) {
+    boolean isContent=
+      ContentResolver.SCHEME_CONTENT.equals(document.getScheme());
+
     try {
       OutputStream os=
         getContentResolver().openOutputStream(document, "w");
@@ -141,7 +160,7 @@ public class DocumentStorageService extends IntentService {
         osw.write(text);
         osw.flush();
 
-        if (isClosing) {
+        if (isClosing && isContent) {
           int perms=Intent.FLAG_GRANT_READ_URI_PERMISSION
             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 

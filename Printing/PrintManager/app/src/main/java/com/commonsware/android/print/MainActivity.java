@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -61,7 +61,9 @@ public class MainActivity extends Activity {
     switch (item.getItemId()) {
       case R.id.bitmap:
         Intent i=
-            new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+            new Intent(Intent.ACTION_GET_CONTENT)
+              .addCategory(Intent.CATEGORY_OPENABLE)
+              .setType("image/*");
 
         startActivityForResult(i, IMAGE_REQUEST_ID);
 

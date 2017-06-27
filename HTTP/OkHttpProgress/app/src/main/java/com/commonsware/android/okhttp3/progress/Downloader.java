@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -53,8 +53,7 @@ public class Downloader extends IntentService {
 
       startForeground(FOREGROUND_ID, builder.build());
 
-      File root=
-          Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+      File root=getExternalFilesDir(null);
 
       root.mkdirs();
 

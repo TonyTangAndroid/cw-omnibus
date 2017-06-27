@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -27,13 +27,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
-import de.greenrobot.event.EventBus;
 
 public class RestoreRosterFragment extends ListFragment
   implements Callback {
@@ -49,17 +50,17 @@ public class RestoreRosterFragment extends ListFragment
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     EventBus.getDefault().register(this);
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     EventBus.getDefault().unregister(this);
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override
@@ -111,6 +112,7 @@ public class RestoreRosterFragment extends ListFragment
     startActivity(i);
   }
 
+  @Subscribe(threadMode =ThreadMode.MAIN)
   public void onEventMainThread(List<BackupMetadata> roster) {
     adapter=new ArrayAdapter<BackupMetadata>(getActivity(),
       android.R.layout.simple_list_item_1, roster);

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -46,8 +46,8 @@ public class MainActivity extends Activity implements
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     recorder=new MediaRecorder();
     recorder.setOnErrorListener(this);
@@ -55,11 +55,11 @@ public class MainActivity extends Activity implements
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     recorder.release();
     recorder=null;
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
         cb=new RouteCallback();
         router=(MediaRouter)getSystemService(MEDIA_ROUTER_SERVICE);
       }
-      
+
       handleRoute(router.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_VIDEO));
       router.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, cb);
     }

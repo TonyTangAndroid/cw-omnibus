@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -42,7 +42,7 @@ public class DownloadFragment extends Fragment implements
   public void onClick(View v) {
     Intent i=new Intent(getActivity(), Downloader.class);
 
-    i.setDataAndType(Uri.parse("https://commonsware.com/Android/excerpt.pdf"),
+    i.setDataAndType(Uri.parse("https://commonsware.com/Android/Android-1_0-CC.pdf"),
                      "application/pdf");
 
     getActivity().startService(i);

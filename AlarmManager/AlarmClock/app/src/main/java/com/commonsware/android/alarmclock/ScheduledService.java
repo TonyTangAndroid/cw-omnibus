@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -17,13 +17,13 @@ package com.commonsware.android.alarmclock;
 import android.content.Intent;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Random;
-import de.greenrobot.event.EventBus;
 
 public class ScheduledService extends WakefulIntentService {
   private Random rng=new Random();

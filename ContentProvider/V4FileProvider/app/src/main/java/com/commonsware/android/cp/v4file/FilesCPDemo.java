@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -35,7 +35,7 @@ public class FilesCPDemo extends Activity {
     File f=new File(getFilesDir(), "test.pdf");
 
     if (!f.exists()) {
-      AssetManager assets=getResources().getAssets();
+      AssetManager assets=getAssets();
 
       try {
         copy(assets.open("test.pdf"), f);
@@ -50,6 +50,7 @@ public class FilesCPDemo extends Activity {
                    FileProvider.getUriForFile(this, AUTHORITY, f));
 
     i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
     startActivity(i);
     finish();
   }
